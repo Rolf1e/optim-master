@@ -3,9 +3,10 @@ extern crate test;
 use crate::solution::Solution;
 use crate::parsing;
 
-pub fn execute_random_research(nb_attempt: i32, file_name: &str) -> (Vec<bool>, f32) {
+pub fn execute_random_research(nb_attempt: i32, file_name: &str) -> (Vec<bool>, f32, i32) {
     let mut best_attempt :Vec<bool> = Vec::new();
     let mut best_weight :f32 = 0.0;
+    let mut best_attempt_number: i32 = 0;
 
     for attempt in 0..nb_attempt {
         let extracted_content = parsing::create_knapsack_from_file(file_name);
@@ -17,11 +18,11 @@ pub fn execute_random_research(nb_attempt: i32, file_name: &str) -> (Vec<bool>, 
 
         if solution.is_working(&knapsack) {
             println!("attempt {} is working", attempt);
-            //add test to best
             let sum_weight = knapsack.sum_weight(&generated_solution);
             if best_weight < sum_weight {
                 best_weight =  sum_weight;
                 best_attempt = generated_solution;
+                best_attempt_number = attempt;
             }
         }
         else {
@@ -29,7 +30,7 @@ pub fn execute_random_research(nb_attempt: i32, file_name: &str) -> (Vec<bool>, 
         }
     }
 
-    (best_attempt, best_weight)
+    (best_attempt, best_weight, best_attempt_number)
 }
 
 #[test]
