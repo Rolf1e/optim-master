@@ -8,7 +8,7 @@ pub fn execute_random_research(nb_attempt: i32, file_name: &str) -> (Vec<bool>, 
     let mut best_weight :f32 = 0.0;
     let mut best_attempt_number: i32 = 0;
 
-    for attempt in 0..nb_attempt {
+    for attempt in 0..100 {
         let extracted_content = parsing::create_knapsack_from_file(file_name);
         let generated_solution = generate_solution(extracted_content.2);
         let knapsack = extracted_content.0;

@@ -10,5 +10,12 @@ edition = "2018"
 [dependencies.rand]
 version = "0.7.3"
 
+#Rust bindings for Python
+[dependencies.pyo3]
+version = "0.11.1"
+features = ["extension-module"]
 
+[lib]
+name = "knapsack"
+crate-type = ["cdylib"]
 
