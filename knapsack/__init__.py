@@ -5,13 +5,13 @@ __all__ = [
     "random_execution"
 ]
 
-content = random_execution(10)
-# print(content)
+content = random_execution(500)
+print(content)
 
 attempts = [(out[0]) for out in content]
 weight = [(out[1]) for out in content]
-print(attempts)
-print(weight)
+# print(attempts)
+# print(weight)
 
 plt.figure(figsize=(10, 10))
 plt.plot(attempts, weight, label="perf")
