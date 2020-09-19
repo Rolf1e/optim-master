@@ -1,7 +1,9 @@
+#[derive(Debug)]
 pub struct Knapsack {
     content : Vec<Item>,
 }
 
+#[derive(Debug)]
 pub struct Item {
     name: String,
     weight: f32,
@@ -76,4 +78,6 @@ impl Item {
         self.profit
     }
 }
+
+
 

@@ -1,23 +1,28 @@
 import matplotlib.pyplot as plt
-from knapsack import random_execution, execute
+from knapsack import execute, execute_multiple_time
 
 __all__ = [
-    "random_execution",
-    "execute"
+    "execute",
+    "execute_multiple_time"
 ]
 
-# content = random_execution(200)
+# content = execute(100)
+content = execute_multiple_time(100)
 # print(content)
 
-content = execute(100)
-
-attempts = [(out[0]) for out in content]
-weight = [(out[1]) for out in content]
+attempts = [(out[3]) for out in content]
+weight = [(out[2]) for out in content]
+profit = [(out[0]) for out in content]
 # print(attempts)
 # print(weight)
 
 plt.figure(figsize=(10, 10))
-plt.plot(attempts, weight, label="perf")
-plt.xlabel("number of attempts")
-plt.ylabel("max weight")
+plt.plot(attempts, weight)
+plt.xlabel("attempt")
+plt.ylabel("weight")
+plt.show()
+
+plt.plot(attempts, profit)
+plt.xlabel("attempt")
+plt.ylabel("profit")
 plt.show()

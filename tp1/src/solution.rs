@@ -14,8 +14,8 @@ impl<'a> Solution<'a> {
         }
     }
 
-    pub fn is_working(&self, knapsack : &Knapsack) -> bool {
-        check_solution(knapsack, &self.choosed_items, &self.fitness)
+    pub fn evaluate(&self, knapsack :&Knapsack, beta: f32) -> f32 {
+        evaluate_solution(knapsack, self.choosed_items, &self.fitness, beta)
     }
 
     pub fn display(&self) -> String {
@@ -23,12 +23,17 @@ impl<'a> Solution<'a> {
     }
 }
 
-fn check_solution(knapsack :&Knapsack, choosed_items: &[bool], fitness: &f32) -> bool {
-    knapsack.sum_weight(choosed_items) >= *fitness 
+
+fn evaluate_solution(knapsack :&Knapsack, choosed_items: &[bool], fitness: &f32, beta: f32) -> f32 {
+    let sum_weight = knapsack.sum_weight(choosed_items);
+    if &sum_weight <= fitness {
+        return knapsack.sum_profit(choosed_items);
+    }
+    knapsack.sum_profit(choosed_items) - beta * (sum_weight - fitness)
 }
 
 #[test]
-fn should_check_solution() {
+fn should_evaluate_solution() {
     use crate::knapsack::Item;
 
     let mut sack = Knapsack::new();
@@ -38,24 +43,10 @@ fn should_check_solution() {
     sack.push(Item::new(String::from("Ephrimes"), 60.0, 4.0));
 
     let choosed_items = vec![false, true, true, false];
+    assert_eq!(8.0, evaluate_solution(&sack, &choosed_items, &200.0, 10.0));
 
-    assert!(!check_solution(&sack, &choosed_items, &10.0));
-}
-
-
-#[test]
-fn should_not_check_solution() {
-    use crate::knapsack::Item;
-
-    let mut sack = Knapsack::new();
-    sack.push(Item::new(String::from("Grelloc"), 70.0, 5.0));
-    sack.push(Item::new(String::from("Nekoshiro"), 45.0, 2.0));
-    sack.push(Item::new(String::from("Rolfie"), 80.0, 6.0));
-    sack.push(Item::new(String::from("Ephrimes"), 60.0, 4.0));
-
-    let choosed_items = vec![false, true, true, false];
-
-    assert!(check_solution(&sack, &choosed_items, &140.0))
+    let choosed_items = vec![true, true, false, true];
+    assert_eq!(11.0, evaluate_solution(&sack, &choosed_items, &200.0, 10.0));
 }
 
 #[test]
