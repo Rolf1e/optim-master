@@ -1,5 +1,5 @@
-./output/*
-./target/*
+output/*
+target/*
 *.lock
 *.pyc
 *.so

@@ -8,6 +8,12 @@ pub struct Item {
     profit: f32,
 }
 
+impl Default for Knapsack {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Knapsack {
    
     pub fn new() -> Self {
@@ -35,12 +41,23 @@ impl Knapsack {
         &self.content
     }
 
+    //P(x)
     pub fn sum_weight(&self, choosed_items :&[bool]) -> f32 {
         self.content
             .iter()
             .zip(choosed_items)
             .filter(|(_, &taken)| taken)
             .map(|(item, _)| item.get_weight())
+            .sum::<f32>()
+    }
+
+    //W(x)
+    pub fn sum_profit(&self, choosed_items :&[bool]) -> f32 {
+        self.content
+            .iter()
+            .zip(choosed_items)
+            .filter(|(_, &taken)| taken)
+            .map(|(item, _)| item.get_profit())
             .sum::<f32>()
     }
 }

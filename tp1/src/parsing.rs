@@ -25,8 +25,8 @@ pub fn create_knapsack_from_file(file_name: &str) -> (Knapsack, f32, usize) {
 }
 
 pub fn create_knapsack(content :&[&str]) -> Knapsack {
-    let items_weights = extract_from_vector(&content, 1);
-    let items_profits = extract_from_vector(&content, 2);
+    let items_profits = extract_from_vector(&content, 1);
+    let items_weights = extract_from_vector(&content, 2);
     
     let items :Vec<Item> = items_weights
         .iter()

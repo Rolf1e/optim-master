@@ -1,12 +1,15 @@
 import matplotlib.pyplot as plt
-from knapsack import random_execution
+from knapsack import random_execution, execute
 
 __all__ = [
-    "random_execution"
+    "random_execution",
+    "execute"
 ]
 
-content = random_execution(500)
-print(content)
+# content = random_execution(200)
+# print(content)
+
+content = execute(100)
 
 attempts = [(out[0]) for out in content]
 weight = [(out[1]) for out in content]

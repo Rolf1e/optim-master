@@ -10,4 +10,3 @@ mod benchs {
         b.iter(|| launch(100));
     }
 }
-

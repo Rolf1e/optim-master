@@ -24,7 +24,7 @@ impl<'a> Solution<'a> {
 }
 
 fn check_solution(knapsack :&Knapsack, choosed_items: &[bool], fitness: &f32) -> bool {
-    knapsack.sum_weight(choosed_items) <= *fitness 
+    knapsack.sum_weight(choosed_items) >= *fitness 
 }
 
 #[test]
