@@ -1,28 +1,44 @@
 import matplotlib.pyplot as plt
-from knapsack import execute, execute_multiple_time
+from knapsack import execute, execute_multiple_time, execute_multiple_time_incremented
+
 
 __all__ = [
     "execute",
-    "execute_multiple_time"
+    "execute_multiple_time",
+    "execute_multiple_time_incremented"
 ]
 
-# content = execute(100)
+# execute_multiple_time
 content = execute_multiple_time(100)
-# print(content)
 
 attempts = [(out[3]) for out in content]
 weight = [(out[2]) for out in content]
 profit = [(out[0]) for out in content]
-# print(attempts)
-# print(weight)
 
 plt.figure(figsize=(10, 10))
-plt.plot(attempts, weight)
-plt.xlabel("attempt")
-plt.ylabel("weight")
-plt.show()
+legend = plt.subplot(111)
+legend.plot(attempts, weight, label='weight')
+legend.plot(attempts, profit, label='profit')
+legend.legend()
+plt.title('execute_multiple_time')
+plt.xlabel('attempts')
+plt.ylabel('weight / profit')
 
-plt.plot(attempts, profit)
-plt.xlabel("attempt")
-plt.ylabel("profit")
+
+# execute_multiple_time_incremented
+content2 = execute_multiple_time_incremented(100)
+attempts2 = [(out[3]) for out in content2]
+weight2 = [(out[2]) for out in content2]
+profit2 = [(out[0]) for out in content2]
+
+plt.figure(figsize=(10, 10))
+legend = plt.subplot(111)
+legend.plot(attempts2, weight2, label='weight')
+legend.plot(attempts2, profit2, label='profit')
+legend.legend()
+plt.title('execute_multiple_time_incremented')
+plt.xlabel('attempts')
+plt.ylabel('weight / profit')
+
+
 plt.show()

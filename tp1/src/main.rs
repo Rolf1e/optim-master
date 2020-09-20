@@ -2,7 +2,9 @@ pub mod parsing;
 pub mod solution;
 pub mod knapsack;
 pub mod resolve; 
+pub mod py_bindings;
 
 fn main() {
-    println!("Best : {:?}", resolve::random_execution("data1000.txt", 100));
+    let content = py_bindings::execute_multiple_time(100);
+    println!("{:?}", content);
 }
