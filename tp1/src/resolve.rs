@@ -1,19 +1,16 @@
 use crate::solution::Solution;
 use crate::knapsack::Knapsack;
-use crate::parsing;
 
  //number of time we want to test
  //return best solution and profit
-pub fn random_execution(file_name: &str, number_execution: i32) -> (f32, Vec<bool>, f32, i32) {
-    let file_content = parsing::create_knapsack_from_file(file_name);
+pub fn random_execution(knapsack: &Knapsack, number_execution: i32, fitness: f32, length: usize) -> (f32, Vec<bool>, f32, i32) {
     let mut best_solution :Vec<bool> = Vec::new();
     let mut best_profit :f32 = 0.0;
     let mut best_weight :f32 = 0.0;
     let mut best_attempt :i32 = 0;
-    let knapsack = &file_content.0;
 
     for attempt in 0..number_execution {
-        let result = execute(file_content.2, file_content.1, knapsack);
+        let result = execute(length, fitness, knapsack);
         if result.0 > best_profit {
             best_profit = result.0;
             best_solution = result.1;
@@ -25,11 +22,11 @@ pub fn random_execution(file_name: &str, number_execution: i32) -> (f32, Vec<boo
     (best_profit, best_solution, best_weight, best_attempt)    
 }
 
-
 fn execute(length: usize, fitness: f32, knapsack: &Knapsack) -> (f32, Vec<bool>, f32) {
     let generated_solution = generate_solution(length);
     let solution = Solution::new(&generated_solution, fitness);
-    (solution.evaluate(knapsack, 10.0), generated_solution.clone(), knapsack.sum_weight(&generated_solution))
+    let sum_weight = knapsack.sum_weight(&generated_solution);
+    (solution.evaluate(knapsack, &10.0, &sum_weight), generated_solution, sum_weight)
 }
 
 //TODO improve so solution is less random 

@@ -9,6 +9,7 @@ __all__ = [
 ]
 
 # execute_multiple_time
+print("Flat")
 content = execute_multiple_time(100)
 
 attempts = [(out[3]) for out in content]
@@ -26,6 +27,7 @@ plt.ylabel('weight / profit')
 
 
 # execute_multiple_time_incremented
+print("Incremented")
 content2 = execute_multiple_time_incremented(100)
 attempts2 = [(out[3]) for out in content2]
 weight2 = [(out[2]) for out in content2]
