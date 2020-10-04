@@ -1,7 +1,6 @@
 use pyo3::prelude::*;
 use pyo3::wrap_pyfunction;
 use crate::parsing;
-
 use crate::resolve;
 
 #[pyfunction]
@@ -29,13 +28,14 @@ fn execute_multiple_time(number_execution: i32) -> PyResult<Vec<(f32, Vec<bool>,
 
 #[pyfunction]
 //execute algo multiple times with incremented attempts
-fn execute_multiple_time_incremented(number_execution: i32) -> PyResult<Vec<(f32, Vec<bool>, f32, i32)>> {
+fn execute_multiple_time_incremented(incrementations: Vec<i32>) -> PyResult<Vec<(f32, Vec<bool>, f32, i32)>> {
     let file_content = parsing::create_knapsack_from_file("data1000.txt");
     let mut result : Vec<_> = Vec::new();
 
+    let number_execution = incrementations.len();
     //No need to start at 0
-    for attempt in 1..number_execution {
-        result.push(resolve::random_execution(&file_content.0, attempt, file_content.1, file_content.2));
+    for i in 0..number_execution {
+        result.push(resolve::random_execution(&file_content.0, incrementations[i], file_content.1, file_content.2));
     }
 
     //TODO improve sorting
@@ -52,5 +52,4 @@ fn knapsack(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_wrapped(wrap_pyfunction!(execute_multiple_time_incremented))?;
     Ok(())
 }
-
 

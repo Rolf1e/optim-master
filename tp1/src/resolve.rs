@@ -1,4 +1,4 @@
-use crate::solution::Solution;
+use crate::solution::KnapsackSolution;
 use crate::knapsack::Knapsack;
 
  //number of time we want to test
@@ -24,7 +24,7 @@ pub fn random_execution(knapsack: &Knapsack, number_execution: i32, fitness: f32
 
 fn execute(length: usize, fitness: f32, knapsack: &Knapsack) -> (f32, Vec<bool>, f32) {
     let generated_solution = generate_solution(length);
-    let solution = Solution::new(&generated_solution, fitness);
+    let solution = KnapsackSolution::new(&generated_solution, fitness);
     let sum_weight = knapsack.sum_weight(&generated_solution);
     (solution.evaluate(knapsack, &sum_weight), generated_solution, sum_weight)
 }

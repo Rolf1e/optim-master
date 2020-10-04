@@ -1,14 +1,14 @@
 use crate::knapsack::{Knapsack, Item};
 
-pub struct Solution<'a> {
+pub struct KnapsackSolution<'a> {
     choosed_items : &'a [bool], // bool vector of choosed items : True -> choosed False -> Non choosed 
     fitness : f32, //total bag's weight
 }
 
-impl<'a> Solution<'a> {
+impl<'a> KnapsackSolution<'a> {
 
     pub fn new(choosed_items: &'a [bool], fitness: f32) -> Self {
-        Solution {
+        KnapsackSolution {
             choosed_items, 
             fitness, 
         }
@@ -55,7 +55,7 @@ fn should_evaluate_solution() {
 fn should_display() {
     let expect = String::from("Fitness : 120, solution -> [true, false, true, true]");
     let choosed_items = vec![true, false, true, true];
-    let solution = Solution::new(&choosed_items, 120.0);
+    let solution = KnapsackSolution::new(&choosed_items, 120.0);
 
     assert_eq!(expect, solution.display());
 }

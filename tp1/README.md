@@ -1,6 +1,11 @@
 Implementation of : 
 https://www-lisic.univ-littoral.fr/~verel/TEACHING/20-21/optimisation-M1app/tp01.pdf
 
+Use nightly tool-chain <= 1.48
+
+required :
+
+ `pip install matplotlib`
 
 To execute project : 
 
@@ -16,4 +21,5 @@ To execute project :
 
  3. run python file with some data 
  ` python3.7 knapsack/__init__.py`
+
 
