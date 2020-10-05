@@ -1,4 +1,5 @@
-use crate::knapsack::{Knapsack, Item};
+use optim::Solution;
+use optim::knapsack::{Knapsack, Item};
 
 pub struct KnapsackSolution<'a> {
     choosed_items : &'a [bool], // bool vector of choosed items : True -> choosed False -> Non choosed 
@@ -14,15 +15,18 @@ impl<'a> KnapsackSolution<'a> {
         }
     }
 
-    pub fn evaluate(&self, knapsack :&Knapsack, sum_weight : &f32) -> f32 {
-        evaluate_solution(knapsack, self.choosed_items, &self.fitness, sum_weight)
-    }
-
     pub fn display(&self) -> String {
         format!("Fitness : {}, solution -> {:?}", self.fitness, self.choosed_items)
     }
 }
 
+impl<'a> Solution<'a, f32> for KnapsackSolution<'a> {
+
+    fn evaluate(&self, knapsack :&Knapsack, sum_weight : &f32) -> f32 {
+        evaluate_solution(knapsack, self.choosed_items, &self.fitness, sum_weight)
+    }
+
+}
 
 fn evaluate_solution(knapsack :&Knapsack, choosed_items: &[bool], fitness: &f32, sum_weight : &f32) -> f32 {
     if sum_weight <= fitness {
@@ -36,7 +40,7 @@ fn evaluate_solution(knapsack :&Knapsack, choosed_items: &[bool], fitness: &f32,
 
 #[test]
 fn should_evaluate_solution() {
-    use crate::knapsack::Item;
+    use optim::knapsack::Item;
 
     let mut sack = Knapsack::new();
     sack.push(Item::new(String::from("Grelloc"), 70.0, 5.0));

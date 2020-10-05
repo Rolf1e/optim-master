@@ -1,5 +1,8 @@
+use rand::prelude::*;
+use optim::knapsack::Knapsack;
+use optim::Solution;
+
 use crate::solution::KnapsackSolution;
-use crate::knapsack::Knapsack;
 
  //number of time we want to test
  //return best solution and profit
@@ -29,7 +32,7 @@ fn execute(length: usize, fitness: f32, knapsack: &Knapsack) -> (f32, Vec<bool>,
     (solution.evaluate(knapsack, &sum_weight), generated_solution, sum_weight)
 }
 
-//TODO improve so solution is less random 
+
 fn generate_solution(length: usize) -> Vec<bool> {
     let mut vec = Vec::new();
     for _ in 0.. length {
@@ -37,6 +40,41 @@ fn generate_solution(length: usize) -> Vec<bool> {
     }
     vec
 }
+
+
+pub fn walk_execution(knapsack: &Knapsack, number_execution: i32, fitness: f32, length: usize) -> Vec<(f32, Vec<bool>, f32)> {
+    let mut result = Vec::new();
+
+    let mut generated_solution = generate_solution(length);
+
+    for _ in 0..number_execution {
+        let exec = execute_random_walk(length, fitness, knapsack, &mut generated_solution);
+        result.push((exec.0, exec.1.to_vec(), exec.2));
+    }
+
+    result
+}
+
+fn execute_random_walk<'a>(length: usize, fitness: f32, knapsack: &Knapsack, generated_solution: &'a mut [bool]) -> (f32, &'a [bool], f32) {
+    let generated_solution = generate_walk_solution(generated_solution, length);
+    let solution = KnapsackSolution::new(&generated_solution, fitness);
+    let sum_weight = knapsack.sum_weight(&generated_solution);
+    (solution.evaluate(knapsack, &sum_weight), generated_solution, sum_weight)
+}
+
+fn generate_walk_solution<'a>(generated_solution: &'a mut [bool], length: usize) -> &'a [bool] {
+    let rand :usize = rand::thread_rng()
+        .gen_range(0, length);
+
+    if let true = generated_solution[rand] {
+        generated_solution[rand] = false;
+    } else {
+        generated_solution[rand] = true;
+    }
+
+    generated_solution
+}
+
 
 #[test]
 fn should_generate_vec_of_bool() {

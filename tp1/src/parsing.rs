@@ -2,7 +2,8 @@ use std::fs;
 use std::fs::OpenOptions;
 use std::io::prelude::*;
 
-use crate::knapsack::{Knapsack, Item};
+use optim::knapsack::{Knapsack, Item};
+
 
 // return (knapsack, fitness, nb_items)
 pub fn create_knapsack_from_file(file_name: &str) -> (Knapsack, f32, usize) {
