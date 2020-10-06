@@ -1,4 +1,4 @@
-use optim::Solution;
+use optim::solution::Solution;
 use optim::knapsack::{Knapsack, Item};
 
 pub struct KnapsackSolution<'a> {
@@ -59,7 +59,7 @@ fn should_evaluate_solution() {
 fn should_display() {
     let expect = String::from("Fitness : 120, solution -> [true, false, true, true]");
     let choosed_items = vec![true, false, true, true];
-    let solution = KnapsackSolution::new(&choosed_items, 120.0);
+    let solution = KnapsackSolution::new(&mut choosed_items, 120.0);
 
     assert_eq!(expect, solution.display());
 }
