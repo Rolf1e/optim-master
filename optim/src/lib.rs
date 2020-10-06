@@ -1,5 +1,3 @@
 pub mod knapsack;
-pub mod solution;
 pub mod resolver;
-
-
+pub mod solution;

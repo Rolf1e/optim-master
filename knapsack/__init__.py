@@ -21,7 +21,7 @@ def data_science_walk(number_execution):
     legend.plot(n, res[0], label='weight')
     legend.plot(n, res[1], label='profit')
     legend.legend()
-    plt.title('execute_multiple_time')
+    plt.title('Random Walk')
     plt.xlabel('attempts')
     plt.ylabel('weight / profit')
 
@@ -51,7 +51,7 @@ def data_science(number_execution):
     legend.plot(res[0], res[1], label='weight')
     legend.plot(res[0], res[2], label='profit')
     legend.legend()
-    plt.title('execute_multiple_time')
+    plt.title('Random')
     plt.xlabel('attempts')
     plt.ylabel('weight / profit')
 
@@ -61,7 +61,7 @@ def data_science(number_execution):
     legend = plt.subplot(121)
     legend.bar(res[0], res[1], label='weight')
     legend.bar(res[0], res[2], label='profit')
-    plt.title('bar')
+    plt.title('Random bar')
     plt.xlabel('attempts')
     plt.ylabel('weight / profit')
     legend.legend()
