@@ -9,9 +9,13 @@ use crate::walk_resolve::*;
 use optim::resolver::*;
 
 #[pyfunction]
-fn resolve_random(number_execution: i32) -> PyResult<Vec<random_resolve::BestSolution>> {
+fn resolve_random(
+    number_execution: i32,
+    iterations: i32,
+) -> PyResult<Vec<random_resolve::BestSolution>> {
     let file_content = parsing::create_knapsack_from_file("data1000.txt");
-    let mut resolver = RandomResolver::new(&file_content.0, file_content.1, file_content.2);
+    let mut resolver =
+        RandomResolver::new(&file_content.0, file_content.1, file_content.2, iterations);
 
     Ok(resolver.multiple_resolve(number_execution))
 }
@@ -23,7 +27,7 @@ fn resolve_walk(number_execution: i32) -> PyResult<Vec<walk_resolve::BestSolutio
     let mut resolver = WalkResolver::new(
         file_content.1,
         &file_content.0,
-        generated_solution.len(),
+        file_content.2,
         generated_solution,
     );
 

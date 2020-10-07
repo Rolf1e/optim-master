@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
+import timeit
 from knapsack import resolve_random, resolve_walk
+
 
 def treat_rw(content):
     weight = [(out[2]) for out in content]
@@ -9,8 +11,9 @@ def treat_rw(content):
 
 def data_science_walk(number_execution):
     print('getting data from rust')
+    start_time = timeit.default_timer()
     content = resolve_walk(number_execution)
-    print('done')
+    print('took : ',  timeit.default_timer() - start_time)
 
     res = treat_rw(content)
     # print(res)
@@ -36,12 +39,13 @@ def treat_rand(content):
     weight = [(out[2]) for out in content]
     profit = [(out[0]) for out in content]
     return (attempts, weight, profit)
-    
 
-def data_science(number_execution):
+
+def data_science(number_execution, iterations):
     print('getting data from rust')
-    content = resolve_random(number_execution)
-    print('done')
+    start_time = timeit.default_timer()
+    content = resolve_random(number_execution, iterations)
+    print('took : ',  timeit.default_timer() - start_time)
 
     res = treat_rand(content)
 
@@ -67,6 +71,7 @@ def data_science(number_execution):
     legend.legend()
 
 
-data_science(10)
-data_science_walk(100)
+data_science(10, 100000)
+
+data_science_walk(100000)
 plt.show()

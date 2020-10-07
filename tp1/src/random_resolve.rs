@@ -10,14 +10,16 @@ pub struct RandomResolver<'a> {
     knapsack: &'a Knapsack,
     length: usize,
     fitness: f32,
+    iterations: i32,
 }
 
 impl<'a> RandomResolver<'a> {
-    pub fn new(knapsack: &'a Knapsack, fitness: f32, length: usize) -> Self {
+    pub fn new(knapsack: &'a Knapsack, fitness: f32, length: usize, iterations: i32) -> Self {
         RandomResolver {
             knapsack,
             fitness,
             length,
+            iterations,
         }
     }
 
@@ -50,7 +52,7 @@ impl<'a> Resolver<BestSolution> for RandomResolver<'a> {
         let mut res = Vec::new();
 
         for _ in 1..number_execution {
-            res.push(self.best_solution(100000));
+            res.push(self.best_solution(self.iterations));
         }
 
         res
