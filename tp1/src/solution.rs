@@ -47,12 +47,13 @@ fn evaluate_solution(
 fn should_evaluate_solution() {
     use optim::knapsack::Item;
 
-    let mut sack = Knapsack::new();
-    sack.push(Item::new(String::from("Grelloc"), 70.0, 5.0));
-    sack.push(Item::new(String::from("Nekoshiro"), 45.0, 2.0));
-    sack.push(Item::new(String::from("Rolfie"), 80.0, 6.0));
-    sack.push(Item::new(String::from("Ephrimes"), 60.0, 4.0));
+    let mut items = Vec::new();
+    items.push(Item::new(String::from("Grelloc"), 70.0, 5.0));
+    items.push(Item::new(String::from("Nekoshiro"), 45.0, 2.0));
+    items.push(Item::new(String::from("Rolfie"), 80.0, 6.0));
+    items.push(Item::new(String::from("Ephrimes"), 60.0, 4.0));
 
+    let sack = Knapsack::create(items);
     let choosed_items = vec![false, true, true, false];
     assert_eq!(
         8.0,
