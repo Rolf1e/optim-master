@@ -44,7 +44,7 @@ impl<'a> Resolver<BestSolution> for WalkResolver<'a> {
     }
 
     fn multiple_resolve(&mut self, number_execution: i32) -> Vec<BestSolution> {
-        let mut result = Vec::new();
+        let mut result = Vec::with_capacity(number_execution as usize);
 
         for _ in 0..number_execution {
             let exec = self.resolve();

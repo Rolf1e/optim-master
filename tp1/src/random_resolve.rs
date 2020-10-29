@@ -24,7 +24,7 @@ impl<'a> RandomResolver<'a> {
     }
 
     pub fn best_solution(&mut self, number_execution: i32) -> BestSolution {
-        let mut best_solution: Vec<bool> = Vec::new();
+        let mut best_solution: Vec<bool> = Vec::with_capacity(self.length);
         let mut best_profit: f32 = 0.0;
         let mut best_weight: f32 = 0.0;
         let mut best_attempt: i32 = 0;
@@ -49,7 +49,7 @@ impl<'a> Resolver<BestSolution> for RandomResolver<'a> {
     }
 
     fn multiple_resolve(&mut self, number_execution: i32) -> Vec<BestSolution> {
-        let mut res = Vec::new();
+        let mut res = Vec::with_capacity(number_execution as usize);
 
         for _ in 1..number_execution {
             res.push(self.best_solution(self.iterations));
@@ -71,7 +71,7 @@ fn execute(length: usize, fitness: f32, knapsack: &Knapsack) -> (f32, Vec<bool>,
 }
 
 pub fn generate_solution(length: usize) -> Vec<bool> {
-    let mut vec = Vec::new();
+    let mut vec = Vec::with_capacity(length);
     for _ in 0..length {
         vec.push(rand::random());
     }

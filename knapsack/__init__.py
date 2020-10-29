@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import timeit
-from knapsack import resolve_random, resolve_walk
+from knapsack import resolve_random, resolve_walk, resolve_random_multi_threaded
 
 
 def treat_rw(content):
@@ -44,7 +44,7 @@ def treat_rand(content):
 def data_science(number_execution, iterations):
     print('getting data from rust')
     start_time = timeit.default_timer()
-    content = resolve_random(number_execution, iterations)
+    content = resolve_random_multi_threaded(number_execution, iterations)
     print('took : ',  timeit.default_timer() - start_time)
 
     res = treat_rand(content)
@@ -73,5 +73,5 @@ def data_science(number_execution, iterations):
 
 data_science(10, 100000)
 
-data_science_walk(100000)
+# data_science_walk(100000)
 plt.show()

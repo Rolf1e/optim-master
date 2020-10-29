@@ -42,7 +42,7 @@ pub fn create_knapsack(content: &[&str]) -> Knapsack {
 #[test]
 pub fn should_create_knapsack() {
     let extracted_content = create_knapsack_from_file("test2.txt");
-    assert_eq!(100.0, extracted_content.1);
+    assert_eq!(100.0 , extracted_content.1);
     assert_eq!(5, extracted_content.0.get_content().len());
 }
 
@@ -64,7 +64,7 @@ fn should_read() {
 
 pub fn parse_content(input: &str) -> Vec<f32> {
     let x = input.split(' ').collect();
-    get_as_u32(x)
+    get_as_f32(x)
 }
 
 #[test]
@@ -75,7 +75,7 @@ fn should_get_str_as_f32() {
     );
 }
 
-pub fn get_as_u32(input: Vec<&str>) -> Vec<f32> {
+pub fn get_as_f32(input: Vec<&str>) -> Vec<f32> {
     input.iter().map(|x| parse_f32(x)).collect()
 }
 
@@ -83,7 +83,7 @@ pub fn get_as_u32(input: Vec<&str>) -> Vec<f32> {
 fn should_parse_to_f32() {
     assert_eq!(
         vec![20.0, 10.0, 40.0, 70.0, 5.0],
-        get_as_u32(vec!["20", "10", "40", "70", "5"])
+        get_as_f32(vec!["20", "10", "40", "70", "5"])
     );
 }
 
