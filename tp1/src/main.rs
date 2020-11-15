@@ -20,32 +20,32 @@ fn main() {
     let now = Instant::now();
     let file_name = "data1000.txt";
 
-    for _ in 1..20 {
-        println!("Random");
-        let res1 = one_thread_random(file_name, 10, 1000);
-        println!("{}", res1);
-        //let t1 = now.elapsed().as_millis();
-        //println!("One thread: time {} ms", t1);
-        //two_read_random(file_name, 10, 100000);
-        //let t2 = now.elapsed().as_millis() - t1;
-        //println!("Tow threads with two reads: time {} ms", t2);
+    let number_execution = 10;
+    let iterations = 1000;
+    println!("execute on  {} iterations", number_execution * iterations);
+    for _ in 1..5 {
+        //let res1 = one_thread_random(file_name, number_execution.clone(), iterations.clone());
+        //println!("Random => {}", res1);
+        ////let t1 = now.elapsed().as_millis();
+        ////println!("One thread: time {} ms", t1);
+        ////two_read_random(file_name, 10, 100000);
+        ////let t2 = now.elapsed().as_millis() - t1;
+        ////println!("Tow threads with two reads: time {} ms", t2);
 
-        //println!("Walk");
-        //one_thread_walk(file_name, 10, 100000);
+        //let res2 = one_thread_walk(file_name, number_execution.clone(), iterations.clone());
+        //println!("Walk => {}", res2);
         //let t3 = now.elapsed().as_millis() - t1 - t2;
         //println!("One thread: time {} ms", t3);
         //two_read_walk(file_name, 10, 100000);
         //let t4 = now.elapsed().as_millis() - t1 - t2 - t3;
         //println!("Tow threads with two reads: time {} ms", t4);
 
-        println!("Hill climber best improvement");
         let res5 = one_thread_hill_climber(file_name);
-        println!("{}", res5.2);
+        println!("Hill Climber BE => {}", res5.2);
     }
 }
 
 fn one_thread_random(file_name: &str, number_execution: i32, iterations: i32) -> f32 {
-    println!("execute on  {} iterations", number_execution * iterations);
     let mut res: Vec<random_resolve::BestSolution> = Vec::with_capacity(number_execution as usize);
     let file_content = parsing::create_knapsack_from_file(file_name);
     res.append(&mut random_resolve_for_threads(
@@ -57,13 +57,12 @@ fn one_thread_random(file_name: &str, number_execution: i32, iterations: i32) ->
     ));
 
     res.sort_by(|a, b| a.0.partial_cmp(&b.0).unwrap());
-    let (profit, _sol, _weight, _attempt) = res.first().ok_or(0).unwrap();
+    let (profit, _sol, _weight, _attempt) = res.last().ok_or(0).unwrap();
 
     *profit
 }
 
-fn one_thread_walk(file_name: &str, number_execution: i32, iterations: i32) {
-    println!("execute on {} iterations", number_execution * iterations);
+fn one_thread_walk(file_name: &str, number_execution: i32, iterations: i32) -> f32 {
     let mut res: Vec<walk_resolve::BestSolution> = Vec::with_capacity(number_execution as usize);
     let file_content = parsing::create_knapsack_from_file(file_name);
     res.append(&mut walk_resolve_for_threads(
@@ -72,6 +71,11 @@ fn one_thread_walk(file_name: &str, number_execution: i32, iterations: i32) {
         file_content.1,
         file_content.2,
     ));
+
+    res.sort_by(|a, b| a.0.partial_cmp(&b.0).unwrap());
+    let (profit, _sol, _weight) = res.last().ok_or(0).unwrap();
+
+    *profit
 }
 
 fn one_thread_hill_climber(file_name: &str) -> hill_climber_resolve::BestSolution {
@@ -80,7 +84,7 @@ fn one_thread_hill_climber(file_name: &str) -> hill_climber_resolve::BestSolutio
 }
 
 fn two_read_random(file_name: &'static str, number_execution: i32, iterations: i32) {
-    println!("execute on  {} iterations", number_execution * iterations);
+    println!("execute on {} iterations", number_execution * iterations);
     let mut res: Vec<random_resolve::BestSolution> = Vec::with_capacity(number_execution as usize);
 
     let (tx, rx) = mpsc::channel();
@@ -186,3 +190,4 @@ fn hill_climber_resolver_for_threads(
 ) -> hill_climber_resolve::BestSolution {
     HillClimberResolver::new(&knapsack, length, fitness).resolve()
 }
+

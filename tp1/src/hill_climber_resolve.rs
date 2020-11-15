@@ -29,13 +29,15 @@ impl<'a> Resolver<BestSolution> for HillClimberResolver<'a> {
         let solution = KnapsackSolution::new(self.knapsack, self.fitness);
 
         for i in 0..self.length {
-            let eval2 = solution.evaluate(&best_solution);
+            let eval = solution.evaluate(&best_solution);
             let new_solution = generate_hill_climber_solution(&mut best_solution, i as usize);
 
-            let eval = solution.evaluate(new_solution);
+            let eval2 = solution.evaluate(&new_solution);
+            //println!("eval1: {} | eval2 {}", eval, eval2);
 
-            if eval > eval2 {
+            if eval < eval2 {
                 best_solution = new_solution.to_vec();
+                //println!("update eval1: {}", solution.evaluate(&mut best_solution));
             }
         }
 
@@ -55,7 +57,8 @@ impl<'a> Resolver<BestSolution> for HillClimberResolver<'a> {
 pub fn generate_hill_climber_solution<'a>(
     generated_solution: &'a mut [bool],
     index: usize,
-) -> &'a [bool] {
-    generated_solution[index] = !generated_solution[index];
-    generated_solution
+) -> Vec<bool> {
+    let mut new = Vec::from(generated_solution);
+    new[index] = !new[index];
+    new
 }
