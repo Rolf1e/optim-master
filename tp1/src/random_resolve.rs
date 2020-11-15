@@ -61,10 +61,10 @@ impl<'a> Resolver<BestSolution> for RandomResolver<'a> {
 
 fn execute(length: usize, fitness: f32, knapsack: &Knapsack) -> (f32, Vec<bool>, f32) {
     let generated_solution = generate_solution(length);
-    let solution = KnapsackSolution::new(&generated_solution, fitness);
+    let solution = KnapsackSolution::new(knapsack, fitness);
     let sum_weight = knapsack.sum_weight(&generated_solution);
     (
-        solution.evaluate(knapsack, &sum_weight),
+        solution.evaluate(&generated_solution),
         generated_solution,
         sum_weight,
     )

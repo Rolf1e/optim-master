@@ -36,13 +36,16 @@ pub fn create_knapsack(content: &[&str]) -> Knapsack {
         .map(|(weight, profit)| Item::new(weight.to_string(), *weight, profit))
         .collect();
 
-    Knapsack::create(items)
+    let beta = calculate_beta(&items);
+    //println!("Beta => {}", beta);
+
+    Knapsack::new(beta, items)
 }
 
 #[test]
 pub fn should_create_knapsack() {
     let extracted_content = create_knapsack_from_file("test2.txt");
-    assert_eq!(100.0 , extracted_content.1);
+    assert_eq!(100.0, extracted_content.1);
     assert_eq!(5, extracted_content.0.get_content().len());
 }
 
@@ -109,3 +112,30 @@ pub fn write_into_file(file_name: &str, to_write: &str) {
         eprintln!("Couldn't write to file: {}", e);
     }
 }
+
+fn calculate_beta(items: &[Item]) -> f32 {
+    let mut tmp: Vec<f32> = items
+        .iter()
+        .map(|item| item.get_profit() / item.get_weight())
+        .collect::<Vec<f32>>();
+
+    tmp.sort_by(|a, b| a.partial_cmp(&b).unwrap());
+
+    tmp.get(tmp.len() - 1)
+        .unwrap()
+        .clone()
+}
+
+#[test]
+fn should_calculate_beta() {
+    let items = vec![
+        Item::new(String::from("1"), 15.0, 20.0),
+        Item::new(String::from("2"), 20.0, 10.0),
+        Item::new(String::from("3"), 60.0, 40.0),
+        Item::new(String::from("3"), 60.0, 70.0),
+        Item::new(String::from("3"), 3.0, 5.0),
+    ];
+    assert_eq!(5.0 / 3.0, calculate_beta(&items));
+}
+
+

@@ -1,5 +1,6 @@
 #[derive(Debug, Clone)]
 pub struct Knapsack {
+    beta: f32,
     content: Vec<Item>,
 }
 
@@ -10,25 +11,17 @@ pub struct Item {
     profit: f32,
 }
 
-impl Default for Knapsack {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
 impl Knapsack {
-    pub fn new() -> Self {
-        Knapsack {
-            content: Vec::new(),
-        }
-    }
-
-    pub fn create(content: Vec<Item>) -> Self {
-        Knapsack { content }
+    pub fn new(beta: f32, content: Vec<Item>) -> Self {
+        Knapsack { beta, content }
     }
 
     pub fn get_content(&self) -> &Vec<Item> {
         &self.content
+    }
+
+    pub fn get_beta(&self) -> &f32 {
+        &self.beta
     }
 
     //W(x)

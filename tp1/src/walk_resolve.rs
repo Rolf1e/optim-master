@@ -34,10 +34,10 @@ impl<'a> WalkResolver<'a> {
 impl<'a> Resolver<BestSolution> for WalkResolver<'a> {
     fn resolve(&mut self) -> (f32, Vec<bool>, f32) {
         let generated_solution = generate_walk_solution(self.length, &mut self.choosed_items);
-        let solution = KnapsackSolution::new(&generated_solution, self.fitness);
-        let sum_weight = self.knapsack.sum_weight(&generated_solution);
+        let sum_weight = self.knapsack.sum_weight(generated_solution);
+        let solution = KnapsackSolution::new(&self.knapsack, self.fitness);
         (
-            solution.evaluate(self.knapsack, &sum_weight),
+            solution.evaluate(generated_solution),
             generated_solution.to_vec(),
             sum_weight,
         )
@@ -58,11 +58,7 @@ impl<'a> Resolver<BestSolution> for WalkResolver<'a> {
 pub fn generate_walk_solution<'a>(length: usize, generated_solution: &'a mut [bool]) -> &'a [bool] {
     let rand: usize = rand::thread_rng().gen_range(0, length);
 
-    if let true = generated_solution[rand] {
-        generated_solution[rand] = false;
-    } else {
-        generated_solution[rand] = true;
-    }
+    generated_solution[rand] = !generated_solution[rand];
 
     generated_solution
 }
