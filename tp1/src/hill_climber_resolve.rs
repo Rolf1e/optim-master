@@ -42,15 +42,20 @@ impl<'a> Resolver<BestSolution> for HillClimberResolver<'a> {
         }
 
         (
-            0.0,
+            solution.evaluate(&best_solution),
             best_solution.clone(),
             self.knapsack.sum_weight(&best_solution),
         )
     }
 
-    #[warn(unused_variables)]
-    fn multiple_resolve(&mut self, _number_execution: i32) -> Vec<BestSolution> {
-        unimplemented!("Does not make real sense to implement");
+    fn multiple_resolve(&mut self, number_execution: i32) -> Vec<BestSolution> {
+        let mut res = Vec::with_capacity(number_execution as usize);
+
+        for _ in 0..number_execution {
+            res.push(self.resolve());
+        }
+
+        res
     }
 }
 
@@ -62,3 +67,18 @@ pub fn generate_hill_climber_solution<'a>(
     new[index] = !new[index];
     new
 }
+
+#[test]
+fn should_generate_hill_climber_solution() {
+    let mut vec = vec![true, false, true, false];
+
+    assert_eq!(
+        vec![true, false, false, false],
+        generate_hill_climber_solution(&mut vec, 2)
+    );
+    assert_eq!(
+        vec![false, false, true, false],
+        generate_hill_climber_solution(&mut vec, 0)
+    );
+}
+
